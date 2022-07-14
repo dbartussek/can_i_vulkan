@@ -1,0 +1,9 @@
+
+disallowed-methods = [
+    { path = "color_eyre::install", reason = "Call utils::eyre::install_eyre" },
+]
+
+
+disallowed-types = [
+    { path = "std::sync::Mutex", reason = "Use parking_lot" },
+]

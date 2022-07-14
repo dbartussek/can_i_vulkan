@@ -1,0 +1,18 @@
+{
+    "nvidia": {
+        "NVIDIA GeForce GTX 1060": 6.82,
+        "NVIDIA GeForce GTX 1650": 6.30,
+        "NVIDIA GeForce GTX 1050 Ti": 5.20,
+        "NVIDIA GeForce RTX 2060": 4.87,
+        "NVIDIA GeForce RTX 3060 Laptop GPU": 2.89,
+    },
+    "amd": {
+        "AMD Radeon RX 580": 1.28,
+        "AMD Radeon Vega 8 Graphics": 1.03,
+        "AMD Radeon RX 570": 1.03,
+    },
+    "intel": {
+        "Intel HD Graphics 630": 0.19,
+        "Intel HD Graphics 3000": 0.27,
+    },
+}
