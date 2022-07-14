@@ -19,7 +19,7 @@ async fn main() -> eyre::Result<()> {
     let _ = std::fs::create_dir_all(CACHE_PATH);
 
     let query_devices: HashMap<String, HashMap<String, f32>> =
-        ron::from_str(&std::fs::read_to_string("query_devices.ron")?)?;
+        serde_json::from_str(&std::fs::read_to_string("query_devices.json")?)?;
     let query_devices: BTreeMap<VendorDevice, f32> = query_devices
         .iter()
         .map(|(vendor, devices)| {
