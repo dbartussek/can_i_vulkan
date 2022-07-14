@@ -12,6 +12,7 @@ use crate::{
     vendor_device::VendorDevice,
 };
 use itertools::Itertools;
+use semver::Version;
 use std::collections::{BTreeMap, HashMap};
 
 #[tokio::main]
@@ -59,19 +60,37 @@ async fn main() -> eyre::Result<()> {
 
     println!();
 
-    for (query, _) in query_devices.iter() {
+    let mut versions = BTreeMap::<Version, (f32, Vec<VendorDevice>)>::new();
+
+    for (query, share) in query_devices.iter() {
         match by_device.get(query) {
             None => println!("{:?} not found", query),
-            Some(reports) => println!(
-                "{:?}: {}",
-                query,
-                reports
+            Some(reports) => {
+                let max_version = reports
                     .iter()
                     .map(|report| report.api_semver().unwrap())
                     .max()
-                    .unwrap()
-            ),
+                    .unwrap();
+
+                let data = versions.entry(max_version).or_default();
+                data.0 += *share;
+                data.1.push(query.clone());
+            },
         }
+    }
+
+    let mut running = 0f32;
+
+    for (v, (percent, devices)) in versions.iter().rev() {
+        running += *percent;
+
+        println!(
+            "{}: {}% ({}% >=) ({})",
+            v,
+            percent,
+            running,
+            devices.iter().map(|s| s.to_string()).join(", ")
+        );
     }
 
     Ok(())

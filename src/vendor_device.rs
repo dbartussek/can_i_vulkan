@@ -2,7 +2,10 @@ use derivative::Derivative;
 use lazy_static::lazy_static;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::borrow::Cow;
+use std::{
+    borrow::Cow,
+    fmt::{Display, Formatter},
+};
 
 #[derive(Clone, Eq, PartialEq, Serialize, Deserialize, Hash, Ord, PartialOrd, Derivative)]
 #[derivative(Debug)]
@@ -68,5 +71,11 @@ impl VendorDevice {
         let device = vendor.normalize_device(device).to_string();
 
         Self { vendor, device }
+    }
+}
+
+impl Display for VendorDevice {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?} {}", self.vendor, self.device)
     }
 }
